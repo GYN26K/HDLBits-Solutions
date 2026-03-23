@@ -1,24 +1,22 @@
-# HDLBits Solutions (Verilog)
+# HDLBits Verilog Solutions
 
-This repository contains my solutions to HDLBits problems written in Verilog.
+This repository contains my **solutions and implementations for problems from HDLBits**, a platform designed to practice **digital logic design using Verilog HDL**.
 
-HDLBits is an online platform for practicing digital logic design and improving Verilog skills through structured exercises.
+The exercises cover a wide range of topics including **combinational logic, sequential circuits, finite state machines, counters, and arithmetic circuits**, helping build a strong foundation in hardware description languages and digital system design.
 
-## Topics Covered
+---
 
-- Combinational Logic
-- Sequential Logic
-- Finite State Machines (FSM)
-- Counters
-- Arithmetic Circuits
-- Shift Registers
-- Flip-Flops and Latches
+# About HDLBits
 
-## Folder Structure
+HDLBits is an online platform that provides **hands-on exercises for learning Verilog and digital circuit design**.  
+Problems are designed to progressively build understanding of digital logic concepts and hardware design techniques.
 
-Each folder corresponds to a specific HDLBits topic and contains organized Verilog solutions.
+Topics covered include:
 
-## Notes
-
-- All code is written in synthesizable Verilog.
-- Solutions are for learning and educational purposes.
+- Basic Verilog syntax
+- Combinational logic circuits
+- Sequential logic
+- Counters and shift registers
+- Finite State Machines (FSMs)
+- Arithmetic circuits
+- Timing and simulation concepts
