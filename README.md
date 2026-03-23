@@ -23,4 +23,5 @@ Topics covered include:
 - Arithmetic circuits
 - Timing and simulation concepts
 
-<img width="1036" height="45" alt="image" src="https://github.com/user-attachments/assets/1fe52d0b-ea53-4149-a600-a1ad88d1a293" />
+<img width="422" height="179" alt="Username and Rank" src="https://github.com/user-attachments/assets/7dd626da-3a65-4933-8933-dfd0d5a44e89" />
+
