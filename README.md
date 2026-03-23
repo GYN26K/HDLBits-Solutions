@@ -22,3 +22,5 @@ Topics covered include:
 - Finite State Machines (FSMs)
 - Arithmetic circuits
 - Timing and simulation concepts
+
+<img width="1036" height="45" alt="image" src="https://github.com/user-attachments/assets/1fe52d0b-ea53-4149-a600-a1ad88d1a293" />
