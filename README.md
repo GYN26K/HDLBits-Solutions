@@ -2,6 +2,8 @@
 
 This repository contains my **solutions and implementations for problems from HDLBits**, a platform designed to practice **digital logic design using Verilog HDL**.
 
+My Username : **YashmithG**
+
 The exercises cover a wide range of topics including **combinational logic, sequential circuits, finite state machines, counters, and arithmetic circuits**, helping build a strong foundation in hardware description languages and digital system design.
 
 ---
