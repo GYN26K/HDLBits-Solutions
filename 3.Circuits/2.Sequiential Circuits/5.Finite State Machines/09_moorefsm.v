@@ -6,62 +6,45 @@ module top_module (
     output reg fr2,
     output reg fr1,
     output reg dfr
-);
+); 
 
-    reg [1:0] level;
-    reg [1:0] level_prev;
+	localparam [2:0] A  = 3'd0,	//water level:below s1    
+					 B0 = 3'd1,	//s1~s2, and previous level is higher
+					 B1 = 3'd2,	//s1~s2, and previous level is lower
+					 C0 = 3'd3,	//s2~s3, and previous level is higher
+					 C1 = 3'd4,	//s2~s3, and previous level is lower
+					 D  = 3'd5;	//above s3
 
-    // Decode sensors directly to level
-    always @(*) begin
-        if (s[3])
-            level = 2'd3;
-        else if (s[2])
-            level = 2'd2;
-        else if (s[1])
-            level = 2'd1;
-        else
-            level = 2'd0;
-    end
+	reg [2:0] state, next_state;
 
-    // Register previous level
-    always @(posedge clk) begin
-        if (reset)
-            level_prev <= 2'd0;
-        else
-            level_prev <= level;
-    end
+	always @(posedge clk) begin
+		if(reset) state <= A;
+		else state <= next_state;
+	end
 
-    // Drop flag
-    always @(posedge clk) begin
-        if (reset)
-            dfr <= 1'b0;
-        else
-            dfr <= (level_prev > level);
-    end
+	always @(*) begin
+		case(state)
+			A 	:	next_state = (s[1]) ? B1 : A;
+			B0 	: 	next_state = (s[2]) ? C1 : ((s[1]) ? B0 : A);
+			B1	:	next_state = (s[2]) ? C1 : ((s[1]) ? B1 : A);
+			C0	:	next_state = (s[3]) ? D  : ((s[2]) ? C0 : B0);
+			C1	:	next_state = (s[3]) ? D  : ((s[2]) ? C1 : B0);
+			D 	:	next_state = (s[3]) ? D  : C0;
+			default : next_state = 3'bxxx;
+		endcase
+	end
 
-    // Outputs
-    always @(*) begin
-        case (level)
-            2'd0: begin 
-                fr1=1; 
-                fr2=1; 
-                fr3=1; 
-                end
-            2'd1: begin 
-                fr1=1; 
-                fr2=1; 
-                fr3=0; 
-                end
-            2'd2: begin 
-                fr1=1; 
-                fr2=0; 
-                fr3=0; end
-            2'd3: begin 
-                fr1=0; 
-                fr2=0; 
-                fr3=0; 
-                end
-        endcase
-    end
+	always @(*) begin
+		case(state)
+			A  : {fr3, fr2, fr1, dfr} = 4'b1111;
+			B0 : {fr3, fr2, fr1, dfr} = 4'b0111;
+			B1 : {fr3, fr2, fr1, dfr} = 4'b0110;
+			C0 : {fr3, fr2, fr1, dfr} = 4'b0011;
+			C1 : {fr3, fr2, fr1, dfr} = 4'b0010;
+			D  : {fr3, fr2, fr1, dfr} = 4'b0000;
+			default : {fr3, fr2, fr1, dfr} = 4'bxxxx;
+		endcase
+	end
+
 
 endmodule

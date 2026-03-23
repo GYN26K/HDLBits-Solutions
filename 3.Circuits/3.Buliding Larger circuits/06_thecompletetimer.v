@@ -2,9 +2,8 @@ module top_module (
     input clk,
     input reset,
     input data,
-    output shift_ena,
+    output reg [3:0] count,
     output counting,
-    input done_counting,
     output done,
     input ack 
 );
@@ -18,9 +17,10 @@ module top_module (
 					 s6 = 6,
 					 s7 = 7,
 					 s8 = 8,
-					 s9 = 9;
-
+					 s9 = 9; 
+	
 	reg [3:0] state, next;
+	reg [9:0] count_1000; 
 
 	always @(*) begin
 		case (state) 
@@ -32,8 +32,8 @@ module top_module (
 			s5: next = s6;
 			s6: next = s7;
 			s7: next = s8;
-			s8: next = (done_counting) ? s9 : s8;
-			s9: next = (ack) ? s0 : s9;
+			s8: next = (count == 0 & count_1000 == 999) ? s9 : s8;
+			s9: next = (ack) ? s0 : s9;			
 		endcase
 	end
 
@@ -42,7 +42,28 @@ module top_module (
 		else state <= next;
 	end
 
-	assign shift_ena = ((state == s4) | (state == s5) | (state == s6) | (state == s7));
+	always @(posedge clk) begin
+		case (state) 
+			s4: count[3] <= data;
+			s5: count[2] <= data;
+			s6: count[1] <= data;
+			s7: count[0] <= data;
+
+			s8: begin
+				if (count >= 0) begin
+					if (count_1000 < 999) 
+						count_1000 <= count_1000 + 1'b1;
+					else begin
+						count <= count - 1'b1;
+						count_1000 <= 0;
+					end
+				end
+			end
+
+			default: count_1000 <= 0;
+		endcase
+	end
+
 	assign counting = (state == s8);
 	assign done = (state == s9);
 
