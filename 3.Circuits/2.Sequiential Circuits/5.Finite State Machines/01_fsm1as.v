@@ -3,26 +3,30 @@ module top_module(
     input areset,    // Asynchronous reset to state B
     input in,
     output out
-  );
+    );  
 
     parameter A=0, B=1; 
     reg state, next_state;
 
-    always @(*) begin    // This is a combinational always block
-        // State transition logic
+    always @(*) begin    
         case(state)
-            A : next_state = (in == 1) ? A : B;
-            B : next_state = (in == 1) ? B : A;
+            A : begin 
+                if(in == 0) next_state <= B ;
+                else next_state <= A ; 
+            end
+            B : begin 
+                if(in == 0) next_state <= A ;
+                else next_state <= B ; 
+            end
+            default : next_state <= B ;
         endcase
     end
 
-    always @(posedge clk, posedge areset) begin    // This is a sequential always block
-        // State flip-flops with asynchronous reset
-        if(areset) state <= B;
-        else state <= next_state;
+    always @(posedge clk or posedge areset) begin    
+        if(areset) state <= B ;
+        else state <= next_state ;
     end
 
-    // Output logic
-    assign out = (state == B);
+    assign out = (state == B );
 
 endmodule
